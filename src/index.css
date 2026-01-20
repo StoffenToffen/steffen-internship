@@ -522,6 +522,7 @@ html {
 	color: black;
 	border-radius: 100%;
 	padding: 12px;
+	user-select: none;
   cursor: pointer !important;
 	margin: -24px 8px !important;
 	opacity: 1 !important;
