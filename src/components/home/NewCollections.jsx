@@ -9,7 +9,7 @@ import "swiper/css/navigation";
 
 import CollectionsSkeleton from "../ui/CollectionsSkeleton";
 
-export default function NewCollections() {
+export default function NewCollections({ swiperSettings }) {
 	const [newCollections, setNewCollections] = useState();
 
 	useEffect(() => {
@@ -27,30 +27,7 @@ export default function NewCollections() {
 				<div className="row">
 					<h2 className="new-collections__title">New Collections</h2>
 					<div className="new-collections__body">
-						<Swiper
-							modules={[Navigation]}
-							spaceBetween={30}
-							slidesPerView={1}
-							loop
-							navigation
-							breakpoints={{
-								480: {
-									slidesPerView: 2,
-								},
-								768: {
-									slidesPerView: 3,
-								},
-								1024: {
-									slidesPerView: 4,
-								},
-								1200: {
-									slidesPerView: 5,
-								},
-								1600: {
-									slidesPerView: 6,
-								},
-							}}
-						>
+						<Swiper {...swiperSettings} modules={[Navigation]}>
 							{newCollections
 								? newCollections.map(
 										({
