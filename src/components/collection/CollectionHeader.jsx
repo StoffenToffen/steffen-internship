@@ -1,72 +1,110 @@
-import { Link } from "react-router-dom";
-
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 export default function CollectionHeader() {
+	const [collection, setCollection] = useState();
+	const { collectionId } = useParams();
+
+	const {
+		id,
+		title,
+		logo,
+		imageLink,
+		totalVolume,
+		floor,
+		bestOffer,
+		listed,
+		owners,
+		description,
+		createdDate,
+		creatorEarnings,
+		chain,
+		items,
+		creator,
+		creatorId,
+	} = collection || {};
+
+	useEffect(() => {
+		(async () => {
+			const data = await axios.get(
+				`https://remote-internship-api-production.up.railway.app/collection/${collectionId}`,
+			);
+			setCollection(data.data.data);
+		})();
+	}, [collectionId]);
+
 	return (
-		<header
-			style={{
-				backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.2)), 
-        url('https://i.seadn.io/gcs/files/cbeed39f76506b4baf71005d7127d0df.png?auto=format&dpr=1&w=1920')`,
-			}}
-			id="collection-header"
-		>
-			<div className="row collection-header__row">
-				<div className="collection-header__content">
-					<div className="collection-header__left">
-						<img
-							src="https://i.seadn.io/gcs/files/2d036c8c2bed042a1588622c3173677f.png?auto=format&dpr=1&w=256"
-							alt=""
-							className="collection-header__img"
-						/>
-						<div className="collection-header__name">Meebits</div>
-						<Link to={"/user"} className="collection-header__author">
-							C352B5
-						</Link>
-					</div>
-					<div className="collection-header__right">
-						<div className="collection-header__columns">
-							<div className="collection-header__column">
-								<span className="collection-header__column__data">
-									<span className="semibold">181,714</span> ETH
-								</span>
-								<span className="collection-header__column__label">
-									Total volume
-								</span>
+		<>
+			{collection ? (
+				<header
+					style={{
+						backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.2)), 
+        url(${imageLink})`,
+					}}
+					id="collection-header"
+				>
+					<div className="row collection-header__row">
+						<div className="collection-header__content">
+							<div className="collection-header__left">
+								<img
+									src={logo}
+									alt="collection logo"
+									className="collection-header__img"
+								/>
+								<div className="collection-header__name">{title}</div>
+								<Link to={`/user/${creatorId}`} className="collection-header__author">
+									{creator}
+								</Link>
 							</div>
-							<div className="collection-header__column">
-								<span className="collection-header__column__data">
-									<span className="semibold">0.55</span> ETH
-								</span>
-								<span className="collection-header__column__label">
-									Floor price
-								</span>
-							</div>
-							<div className="collection-header__column">
-								<span className="collection-header__column__data">
-									<span className="semibold">0.5154</span> ETH
-								</span>
-								<span className="collection-header__column__label">
-									Best offer
-								</span>
-							</div>
-							<div className="collection-header__column">
-								<span className="collection-header__column__data">
-									<span className="semibold">1%</span>
-								</span>
-								<span className="collection-header__column__label">Listed</span>
-							</div>
-							<div className="collection-header__column">
-								<span className="collection-header__column__data">
-									<span className="semibold">6,452 (32%)</span>
-								</span>
-								<span className="collection-header__column__label">
-									Owners (Unique)
-								</span>
+							<div className="collection-header__right">
+								<div className="collection-header__columns">
+									<div className="collection-header__column">
+										<span className="collection-header__column__data">
+											<span className="semibold">{totalVolume}</span> ETH
+										</span>
+										<span className="collection-header__column__label">
+											Total volume
+										</span>
+									</div>
+									<div className="collection-header__column">
+										<span className="collection-header__column__data">
+											<span className="semibold">{parseFloat(floor).toFixed(2)}</span> ETH
+										</span>
+										<span className="collection-header__column__label">
+											Floor price
+										</span>
+									</div>
+									<div className="collection-header__column">
+										<span className="collection-header__column__data">
+											<span className="semibold">{bestOffer}</span> ETH
+										</span>
+										<span className="collection-header__column__label">
+											Best offer
+										</span>
+									</div>
+									<div className="collection-header__column">
+										<span className="collection-header__column__data">
+											<span className="semibold">{listed}%</span>
+										</span>
+										<span className="collection-header__column__label">
+											Listed
+										</span>
+									</div>
+									<div className="collection-header__column">
+										<span className="collection-header__column__data">
+											<span className="semibold">{owners}</span>
+										</span>
+										<span className="collection-header__column__label">
+											Owners (Unique)
+										</span>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-		</header>
+				</header>
+			) : null}
+		</>
 	);
 }
