@@ -1,13 +1,7 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export default function CollectionHeader() {
-	const [collection, setCollection] = useState();
-	const { collectionId } = useParams();
-
+export default function CollectionHeader({ collection }) {
 	const {
-		id,
 		title,
 		logo,
 		imageLink,
@@ -16,23 +10,9 @@ export default function CollectionHeader() {
 		bestOffer,
 		listed,
 		owners,
-		description,
-		createdDate,
-		creatorEarnings,
-		chain,
-		items,
 		creator,
 		creatorId,
 	} = collection || {};
-
-	useEffect(() => {
-		(async () => {
-			const data = await axios.get(
-				`https://remote-internship-api-production.up.railway.app/collection/${collectionId}`,
-			);
-			setCollection(data.data.data);
-		})();
-	}, [collectionId]);
 
 	return (
 		<>
@@ -53,7 +33,10 @@ export default function CollectionHeader() {
 									className="collection-header__img"
 								/>
 								<div className="collection-header__name">{title}</div>
-								<Link to={`/user/${creatorId}`} className="collection-header__author">
+								<Link
+									to={`/user/${creatorId}`}
+									className="collection-header__author"
+								>
 									{creator}
 								</Link>
 							</div>
@@ -69,7 +52,10 @@ export default function CollectionHeader() {
 									</div>
 									<div className="collection-header__column">
 										<span className="collection-header__column__data">
-											<span className="semibold">{parseFloat(floor).toFixed(2)}</span> ETH
+											<span className="semibold">
+												{parseFloat(floor).toFixed(2)}
+											</span>{" "}
+											ETH
 										</span>
 										<span className="collection-header__column__label">
 											Floor price

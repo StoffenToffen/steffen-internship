@@ -1,10 +1,14 @@
-import { faEye } from "@fortawesome/free-regular-svg-icons";
 import { faShoppingBag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function CollectionItems() {
+import CollectionsSkeleton from "../ui/CollectionsSkeleton";
+
+export default function CollectionItems({ collection }) {
+	const [itemsToShow, setItemsToShow] = useState(12);
+	const { items } = collection || {};
+
 	return (
 		<section id="collection-items">
 			<div className="row collection-items__row">
@@ -15,7 +19,7 @@ export default function CollectionItems() {
 							Live
 						</span>
 						<span className="collection-items__header__results">
-							10 results
+							{items?.length} results
 						</span>
 					</div>
 					<select className="collection-items__header__sort">
@@ -27,35 +31,60 @@ export default function CollectionItems() {
 					</select>
 				</div>
 				<div className="collection-items__body">
-					{new Array(8).fill(0).map((_, index) => (
-						<div className="item-column">
-							<Link to={"/item"} key={index} className="item">
-								<figure className="item__img__wrapper">
-									<img
-										src="https://i.seadn.io/gcs/files/0a085499e0f3800321618af356c5d36b.png?auto=format&dpr=1&w=384"
-										alt=""
-										className="item__img"
-									/>
-								</figure>
-								<div className="item__details">
-									<span className="item__details__name">Meebit #0001</span>
-									<span className="item__details__price">0.98 ETH</span>
-									<span className="item__details__last-sale">
-										Last sale: 7.45 ETH
-									</span>
-								</div>
-								<div className="item__see-more">
-									<button className="item__see-more__button">See More</button>
-									<div className="item__see-more__icon">
-										<FontAwesomeIcon icon={faShoppingBag} />
+					{items
+						? items
+								.slice(0, itemsToShow)
+								.map(({ itemId, price, lastSale, title, imageLink }) => (
+									<div key={itemId} className="item-column">
+										<Link to={`/item/${itemId}`} className="item">
+											<figure className="item__img__wrapper">
+												<img
+													src={imageLink}
+													alt={title}
+													className="item__img"
+												/>
+											</figure>
+											<div className="item__details">
+												<span className="item__details__name">{title}</span>
+												<span className="item__details__price">
+													{price} ETH
+												</span>
+												<span className="item__details__last-sale">
+													Last sale: {lastSale} ETH
+												</span>
+											</div>
+											<div className="item__see-more">
+												<button
+													type="button"
+													className="item__see-more__button"
+												>
+													See More
+												</button>
+												<div className="item__see-more__icon">
+													<FontAwesomeIcon icon={faShoppingBag} />
+												</div>
+											</div>
+										</Link>
 									</div>
+								))
+						: new Array(12).fill(0).map((_, index) => (
+								<div key={index} className="collection-column">
+									<CollectionsSkeleton />
 								</div>
-							</Link>
-						</div>
-					))}
+							))}
 				</div>
 			</div>
-			<button className="collection-page__button">Load more</button>
+			{itemsToShow < items?.length && (
+				<button
+					type="button"
+					className="collection-page__button"
+					onClick={() => {
+						setItemsToShow(itemsToShow + 6);
+					}}
+				>
+					Load more
+				</button>
+			)}
 		</section>
 	);
 }
