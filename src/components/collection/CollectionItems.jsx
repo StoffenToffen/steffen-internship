@@ -1,13 +1,29 @@
 import { faShoppingBag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import CollectionsSkeleton from "../ui/CollectionsSkeleton";
 
 export default function CollectionItems({ collection }) {
 	const [itemsToShow, setItemsToShow] = useState(12);
+	const [sortValue, setSortValue] = useState("DEFAULT");
+	const [sortedItems, setSortedItems] = useState();
 	const { items } = collection || {};
+
+	useEffect(() => {
+		setSortedItems(
+			items
+				?.slice()
+				.sort((a, b) =>
+					sortValue === "HIGH_TO_LOW"
+						? b.price - a.price
+						: sortValue === "LOW_TO_HIGH"
+							? a.price - b.price
+							: a - b,
+				),
+		);
+	}, [sortValue, items]);
 
 	return (
 		<section id="collection-items">
@@ -22,17 +38,21 @@ export default function CollectionItems({ collection }) {
 							{items?.length} results
 						</span>
 					</div>
-					<select className="collection-items__header__sort">
-						<option value="" default>
+					<select
+						className="collection-items__header__sort"
+						value={sortValue}
+						onChange={(event) => setSortValue(event.target.value)}
+					>
+						<option value="DEFAULT" default>
 							Default
 						</option>
-						<option value="">Price high to low</option>
-						<option value="">Price low to high</option>
+						<option value="HIGH_TO_LOW">Price high to low</option>
+						<option value="LOW_TO_HIGH">Price low to high</option>
 					</select>
 				</div>
 				<div className="collection-items__body">
-					{items
-						? items
+					{sortedItems
+						? sortedItems
 								.slice(0, itemsToShow)
 								.map(({ itemId, price, lastSale, title, imageLink }) => (
 									<div key={itemId} className="item-column">
