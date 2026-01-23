@@ -10,10 +10,10 @@ export default function Trending() {
 
 	useEffect(() => {
 		(async () => {
-			const data = await axios.get(
+			const { data } = await axios.get(
 				"https://remote-internship-api-production.up.railway.app/trendingnfts",
 			);
-			setTrending(data.data.data.slice(0, 10));
+			setTrending(data.data.slice(0, 10));
 		})();
 	}, []);
 
