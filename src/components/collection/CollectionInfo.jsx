@@ -1,34 +1,40 @@
-import React from "react";
+export default function CollectionInfo({ collection }) {
+	const { description, items, createdDate, creatorEarnings, chain } =
+		collection;
 
-export default function CollectionInfo() {
 	return (
 		<section id="collection-info">
 			<div className="row">
 				<div className="collection-info__wrapper">
-					<p className="collection-info__description">
-						The Meebits are 20,000 unique 3D voxel characters, created by a
-						custom generative algorithm, then registered on the Ethereum
-						blockchain.
-					</p>
+					<p className="collection-info__description">{description}</p>
 					<div className="collection-info__details">
 						<span className="collection-info__detail">
 							Items
-							<span className="collection-info__detail__data"> 20K</span>
+							<span className="collection-info__detail__data">
+								{" "}
+								{items?.length}
+							</span>
 						</span>
 						·
 						<span className="collection-info__detail">
 							Created
-							<span className="collection-info__detail__data"> May 2021</span>
+							<span className="collection-info__detail__data">
+								{" "}
+								{createdDate}
+							</span>
 						</span>
 						·
 						<span className="collection-info__detail">
 							Creator earnings
-							<span className="collection-info__detail__data"> 1%</span>
+							<span className="collection-info__detail__data">
+								{" "}
+								{creatorEarnings}%
+							</span>
 						</span>
 						·
 						<span className="collection-info__detail">
 							Chain
-							<span className="collection-info__detail__data"> Ethereum</span>
+							<span className="collection-info__detail__data"> {chain}</span>
 						</span>
 					</div>
 				</div>

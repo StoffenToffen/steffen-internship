@@ -14,10 +14,10 @@ export default function PopularCollections({ swiperSettings }) {
 
 	useEffect(() => {
 		(async () => {
-			const data = await axios.get(
+			const { data } = await axios.get(
 				"https://remote-internship-api-production.up.railway.app/popularCollections",
 			);
-			setPopularCollections(data.data.data);
+			setPopularCollections(data.data);
 		})();
 	}, []);
 

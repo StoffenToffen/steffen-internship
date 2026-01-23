@@ -14,10 +14,10 @@ export default function NewCollections({ swiperSettings }) {
 
 	useEffect(() => {
 		(async () => {
-			const data = await axios.get(
+			const { data } = await axios.get(
 				"https://remote-internship-api-production.up.railway.app/newCollections",
 			);
-			setNewCollections(data.data.data);
+			setNewCollections(data.data);
 		})();
 	}, []);
 

@@ -1,18 +1,40 @@
-import React, { useEffect } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
 import CollectionHeader from "../components/collection/CollectionHeader";
 import CollectionInfo from "../components/collection/CollectionInfo";
 import CollectionItems from "../components/collection/CollectionItems";
+import CollectionPageSkeleton from "../components/ui/CollectionPageSkeleton";
 
 export default function CollectionPage() {
+	const [collection, setCollection] = useState();
+	const { collectionId } = useParams();
+
+	useEffect(() => {
+		(async () => {
+			const { data } = await axios.get(
+				`https://remote-internship-api-production.up.railway.app/collection/${collectionId}`,
+			);
+			setCollection(data.data);
+		})();
+	}, [collectionId]);
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
 
 	return (
 		<>
-			<CollectionHeader />
-			<CollectionInfo />
-			<CollectionItems />
+			{collection ? (
+				<>
+					<CollectionHeader collection={collection} />
+					<CollectionInfo collection={collection} />
+					<CollectionItems collection={collection} />
+				</>
+			) : (
+				<CollectionPageSkeleton />
+			)}
 		</>
 	);
 }

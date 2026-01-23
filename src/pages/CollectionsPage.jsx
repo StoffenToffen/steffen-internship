@@ -12,10 +12,10 @@ export default function CollectionsPage() {
 		window.scrollTo(0, 0);
 
 		(async () => {
-			const data = await axios.get(
+			const { data } = await axios.get(
 				"https://remote-internship-api-production.up.railway.app/collections",
 			);
-			setCollections(data.data.data);
+			setCollections(data.data);
 		})();
 	}, []);
 

@@ -10,10 +10,10 @@ export default function SelectedCollection() {
 
 	useEffect(() => {
 		(async () => {
-			const data = await axios.get(
+			const { data } = await axios.get(
 				"https://remote-internship-api-production.up.railway.app/selectedcollection",
 			);
-			setSelectedCollection(data.data.data);
+			setSelectedCollection(data.data);
 		})();
 	}, []);
 
