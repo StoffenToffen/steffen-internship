@@ -1,10 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import CollectionHeader from "../components/collection/CollectionHeader";
 import CollectionInfo from "../components/collection/CollectionInfo";
 import CollectionItems from "../components/collection/CollectionItems";
+import CollectionPageSkeleton from "../components/ui/CollectionPageSkeleton";
 
 export default function CollectionPage() {
 	const [collection, setCollection] = useState();
@@ -12,10 +13,10 @@ export default function CollectionPage() {
 
 	useEffect(() => {
 		(async () => {
-			const data = await axios.get(
+			const { data } = await axios.get(
 				`https://remote-internship-api-production.up.railway.app/collection/${collectionId}`,
 			);
-			setCollection(data.data.data);
+			setCollection(data.data);
 		})();
 	}, [collectionId]);
 
@@ -25,9 +26,15 @@ export default function CollectionPage() {
 
 	return (
 		<>
-			<CollectionHeader collection={collection} />
-			<CollectionInfo collection={collection} />
-			<CollectionItems collection={collection} />
+			{collection ? (
+				<>
+					<CollectionHeader collection={collection} />
+					<CollectionInfo collection={collection} />
+					<CollectionItems collection={collection} />
+				</>
+			) : (
+				<CollectionPageSkeleton />
+			)}
 		</>
 	);
 }

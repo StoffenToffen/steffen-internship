@@ -8,18 +8,18 @@ const CollectionsSkeleton = () => {
 				<div className="collection__stats">
 					<div className="collection__stat">
 						<span className="collection__stat__label">
-							<Skeleton width="40px" height="20px" borderRadius="4px" />
+							<Skeleton width="40px" height="16px" borderRadius="4px" />
 						</span>
 						<span className="collection__stat__data">
-							<Skeleton width="80px" height="20px" borderRadius="4px" />
+							<Skeleton width="80px" height="16px" borderRadius="4px" />
 						</span>
 					</div>
 					<div className="collection__stat">
 						<span className="collection__stat__label">
-							<Skeleton width="40px" height="20px" borderRadius="4px" />
+							<Skeleton width="40px" height="16px" borderRadius="4px" />
 						</span>
 						<span className="collection__stat__data">
-							<Skeleton width="80px" height="20px" borderRadius="4px" />
+							<Skeleton width="80px" height="16px" borderRadius="4px" />
 						</span>
 					</div>
 				</div>
