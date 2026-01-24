@@ -1,9 +1,30 @@
 import { faShoppingBag, faTableCells } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-export default function RecommendedItems() {
+import CollectionsSkeleton from "../ui/CollectionsSkeleton";
+
+export default function RecommendedItems({
+	excludeItemId,
+	collectionId,
+	swiperSettings,
+}) {
+	const [collection, setCollection] = useState();
+
+	useEffect(() => {
+		(async () => {
+			const { data } = await axios.get(
+				collectionId &&
+					`https://remote-internship-api-production.up.railway.app/collection/${collectionId}`,
+			);
+			setCollection(data.data);
+		})();
+	}, [collectionId]);
+
 	return (
 		<section id="recommended-items">
 			<div className="container">
@@ -16,38 +37,55 @@ export default function RecommendedItems() {
 							</h3>
 						</div>
 						<div className="recommended-items__body">
-							{new Array(6).fill(0).map((_, index) => (
-								<div className="item-column">
-									<Link to={"/item"} key={index} className="item">
-										<figure className="item__img__wrapper">
-											<img
-												src="https://i.seadn.io/gcs/files/0a085499e0f3800321618af356c5d36b.png?auto=format&dpr=1&w=384"
-												alt=""
-												className="item__img"
-											/>
-										</figure>
-										<div className="item__details">
-											<span className="item__details__name">Meebit #0001</span>
-											<span className="item__details__price">0.98 ETH</span>
-											<span className="item__details__last-sale">
-												Last sale: 7.45 ETH
-											</span>
-										</div>
-										<div className="item__see-more">
-											<button className="item__see-more__button">
-												See More
-											</button>
-											<div className="item__see-more__icon">
-												<FontAwesomeIcon icon={faShoppingBag} />
-											</div>
-										</div>
-									</Link>
-								</div>
-							))}
+							<Swiper {...swiperSettings} modules={[Navigation]}>
+								{collection
+									? collection.items
+											.filter((item) => item.itemId !== excludeItemId)
+											.map(({ itemId, price, lastSale, title, imageLink }) => (
+												<SwiperSlide key={itemId} className="item-column">
+													<Link to={`/item/${itemId}`} className="item">
+														<figure className="item__img__wrapper">
+															<img
+																src={imageLink}
+																alt={title}
+																className="item__img"
+															/>
+														</figure>
+														<div className="item__details">
+															<span className="item__details__name">
+																{title}
+															</span>
+															<span className="item__details__price">
+																{price} ETH
+															</span>
+															<span className="item__details__last-sale">
+																Last sale: {lastSale} ETH
+															</span>
+														</div>
+														<div className="item__see-more">
+															<button
+																type="button"
+																className="item__see-more__button"
+															>
+																See More
+															</button>
+															<div className="item__see-more__icon">
+																<FontAwesomeIcon icon={faShoppingBag} />
+															</div>
+														</div>
+													</Link>
+												</SwiperSlide>
+											))
+									: new Array(9).fill(0).map((_, index) => (
+											<SwiperSlide key={index} className="collection-column">
+												<CollectionsSkeleton />
+											</SwiperSlide>
+										))}
+							</Swiper>
 						</div>
 						<div className="recommended-items__footer">
 							<Link
-								to={"/collection"}
+								to={`/collection/${collectionId}`}
 								className="recommended-items__footer__button"
 							>
 								View Collection
