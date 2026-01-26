@@ -1,13 +1,11 @@
-import { faShoppingBag } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
-export default function CollectionItems({ collection }) {
+import Item from "../ui/Item";
+
+export default function CollectionItems({ collection: { items } }) {
 	const [itemsToShow, setItemsToShow] = useState(12);
 	const [sortValue, setSortValue] = useState("DEFAULT");
 	const [sortedItems, setSortedItems] = useState();
-	const { items } = collection;
 
 	useEffect(() => {
 		setSortedItems(
@@ -49,32 +47,11 @@ export default function CollectionItems({ collection }) {
 					</select>
 				</div>
 				<div className="collection-items__body">
-					{sortedItems
-						?.slice(0, itemsToShow)
-						.map(({ itemId, price, lastSale, title, imageLink }) => (
-							<div key={itemId} className="item-column">
-								<Link to={`/item/${itemId}`} className="item">
-									<figure className="item__img__wrapper">
-										<img src={imageLink} alt={title} className="item__img" />
-									</figure>
-									<div className="item__details">
-										<span className="item__details__name">{title}</span>
-										<span className="item__details__price">{price} ETH</span>
-										<span className="item__details__last-sale">
-											Last sale: {lastSale} ETH
-										</span>
-									</div>
-									<div className="item__see-more">
-										<button type="button" className="item__see-more__button">
-											See More
-										</button>
-										<div className="item__see-more__icon">
-											<FontAwesomeIcon icon={faShoppingBag} />
-										</div>
-									</div>
-								</Link>
-							</div>
-						))}
+					{sortedItems?.slice(0, itemsToShow).map((item) => (
+						<div key={item.itemId} className="item-column">
+							<Item item={item} />
+						</div>
+					))}
 				</div>
 			</div>
 			{itemsToShow < items.length && (

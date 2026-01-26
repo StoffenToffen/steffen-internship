@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-export default function CollectionHeader({ collection }) {
-	const {
+export default function CollectionHeader({
+	collection: {
 		title,
 		logo,
 		imageLink,
@@ -12,8 +12,8 @@ export default function CollectionHeader({ collection }) {
 		owners,
 		creator,
 		creatorId,
-	} = collection;
-
+	},
+}) {
 	return (
 		<header
 			style={{

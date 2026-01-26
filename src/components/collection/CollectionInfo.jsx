@@ -1,7 +1,6 @@
-export default function CollectionInfo({ collection }) {
-	const { description, items, createdDate, creatorEarnings, chain } =
-		collection;
-
+export default function CollectionInfo({
+	collection: { description, items, createdDate, creatorEarnings, chain },
+}) {
 	return (
 		<section id="collection-info">
 			<div className="row">
