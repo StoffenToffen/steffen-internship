@@ -3,7 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+
 import Item from "../components/ui/Item";
+import UserPageSkeleton from "../components/ui/UserPageSkeleton";
 
 export default function UserPage() {
 	const [user, setUser] = useState();
@@ -123,7 +125,9 @@ export default function UserPage() {
 						)}
 					</section>
 				</>
-			) : null}
+			) : (
+				<UserPageSkeleton />
+			)}
 		</>
 	);
 }
