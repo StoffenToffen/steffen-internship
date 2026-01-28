@@ -22,7 +22,7 @@ export default function PopularCollections({ swiperSettings }) {
 	}, []);
 
 	return (
-		<section id="popular-collections">
+		<section id="popular-collections" data-aos="fade-up">
 			<div className="container">
 				<div className="row">
 					<h2 className="popular-collections__title">Popular Collections</h2>
