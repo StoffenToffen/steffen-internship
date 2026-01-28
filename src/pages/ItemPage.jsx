@@ -69,6 +69,7 @@ export default function ItemPage({ swiperSettings }) {
 				`https://remote-internship-api-production.up.railway.app/item/${itemId}`,
 			);
 			setItem(data.data);
+			setTimeLeft(data.data.expiryDate - Date.now());
 		})();
 	}, [itemId]);
 
@@ -157,8 +158,7 @@ export default function ItemPage({ swiperSettings }) {
 										<div className="item-page__sale__header">
 											<div className="green-pulse"></div>
 											<span>
-												Sale ends in {hours || 0}h {minutes || 0}m{" "}
-												{seconds || 0}s
+												Sale ends in {hours}h {minutes}m {seconds}s
 											</span>
 										</div>
 										<div className="item-page__sale__body">
