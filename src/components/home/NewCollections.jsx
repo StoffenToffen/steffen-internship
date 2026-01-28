@@ -22,7 +22,7 @@ export default function NewCollections({ swiperSettings }) {
 	}, []);
 
 	return (
-		<section id="new-collections">
+		<section id="new-collections" data-aos="fade-up">
 			<div className="container">
 				<div className="row">
 					<h2 className="new-collections__title">New Collections</h2>
